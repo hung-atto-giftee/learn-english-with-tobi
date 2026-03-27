@@ -43,6 +43,7 @@ An English listening and dictation training system with:
 - [Learning Flow](#learning-flow)
 - [Notes](#notes)
 - [Future Improvements](#future-improvements)
+- [License](#license)
 
 ## Features
 
@@ -446,3 +447,9 @@ curl "http://127.0.0.1:8000/dictionary/words/frequent" \
 - Richer analytics charts
 - Lesson management
 - Content library upload
+
+## License
+
+This project is licensed under the MIT License.
+
+See [LICENSE](/Users/hungatto/Desktop/tts-learn-listening/LICENSE) for details.
