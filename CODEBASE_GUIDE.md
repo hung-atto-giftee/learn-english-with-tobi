@@ -84,24 +84,24 @@ tts-learn-listening/
 
 ## Part 1: Backend Overview
 
-The backend lives inside [`app/`](/Users/hungatto/Desktop/tts-learn-listening/app).
+The backend lives inside [`app/`](tts-learn-listening/app).
 
 Main files:
 
-- [`main.py`](/Users/hungatto/Desktop/tts-learn-listening/app/main.py)
-- [`database.py`](/Users/hungatto/Desktop/tts-learn-listening/app/database.py)
-- [`tts.py`](/Users/hungatto/Desktop/tts-learn-listening/app/tts.py)
-- [`evaluator.py`](/Users/hungatto/Desktop/tts-learn-listening/app/evaluator.py)
+- [`main.py`](tts-learn-listening/app/main.py)
+- [`database.py`](tts-learn-listening/app/database.py)
+- [`tts.py`](tts-learn-listening/app/tts.py)
+- [`evaluator.py`](tts-learn-listening/app/evaluator.py)
 
 Feature folders:
 
-- [`auth/`](/Users/hungatto/Desktop/tts-learn-listening/app/auth)
-- [`history/`](/Users/hungatto/Desktop/tts-learn-listening/app/history)
-- [`dictionary/`](/Users/hungatto/Desktop/tts-learn-listening/app/dictionary)
+- [`auth/`](tts-learn-listening/app/auth)
+- [`history/`](tts-learn-listening/app/history)
+- [`dictionary/`](tts-learn-listening/app/dictionary)
 
 ### `main.py`
 
-[`main.py`](/Users/hungatto/Desktop/tts-learn-listening/app/main.py) is the application entry point.
+[`main.py`](tts-learn-listening/app/main.py) is the application entry point.
 
 It:
 
@@ -115,7 +115,7 @@ This is usually the first backend file to read.
 
 ### `database.py`
 
-[`database.py`](/Users/hungatto/Desktop/tts-learn-listening/app/database.py) manages PostgreSQL connection and table creation.
+[`database.py`](tts-learn-listening/app/database.py) manages PostgreSQL connection and table creation.
 
 Important concepts here:
 
@@ -134,7 +134,7 @@ That separation is important because:
 
 ### `tts.py`
 
-[`tts.py`](/Users/hungatto/Desktop/tts-learn-listening/app/tts.py) handles text-to-speech generation using `edge-tts`.
+[`tts.py`](tts-learn-listening/app/tts.py) handles text-to-speech generation using `edge-tts`.
 
 It:
 
@@ -146,7 +146,7 @@ This file is a good example of isolating one responsibility into one module.
 
 ### `evaluator.py`
 
-[`evaluator.py`](/Users/hungatto/Desktop/tts-learn-listening/app/evaluator.py) compares:
+[`evaluator.py`](tts-learn-listening/app/evaluator.py) compares:
 
 - original sentence
 - user input
@@ -169,9 +169,9 @@ This is a good file to study if you want to learn:
 
 Files:
 
-- [`auth/routes.py`](/Users/hungatto/Desktop/tts-learn-listening/app/auth/routes.py)
-- [`auth/models.py`](/Users/hungatto/Desktop/tts-learn-listening/app/auth/models.py)
-- [`auth/utils.py`](/Users/hungatto/Desktop/tts-learn-listening/app/auth/utils.py)
+- [`auth/routes.py`](tts-learn-listening/app/auth/routes.py)
+- [`auth/models.py`](tts-learn-listening/app/auth/models.py)
+- [`auth/utils.py`](tts-learn-listening/app/auth/utils.py)
 
 This module teaches:
 
@@ -200,9 +200,9 @@ That is a very important FastAPI pattern.
 
 Files:
 
-- [`history/routes.py`](/Users/hungatto/Desktop/tts-learn-listening/app/history/routes.py)
-- [`history/models.py`](/Users/hungatto/Desktop/tts-learn-listening/app/history/models.py)
-- [`history/service.py`](/Users/hungatto/Desktop/tts-learn-listening/app/history/service.py)
+- [`history/routes.py`](tts-learn-listening/app/history/routes.py)
+- [`history/models.py`](tts-learn-listening/app/history/models.py)
+- [`history/service.py`](tts-learn-listening/app/history/service.py)
 
 This module teaches:
 
@@ -220,8 +220,8 @@ That is a strong backend design habit.
 
 Files:
 
-- [`dictionary/routes.py`](/Users/hungatto/Desktop/tts-learn-listening/app/dictionary/routes.py)
-- [`dictionary/service.py`](/Users/hungatto/Desktop/tts-learn-listening/app/dictionary/service.py)
+- [`dictionary/routes.py`](tts-learn-listening/app/dictionary/routes.py)
+- [`dictionary/service.py`](tts-learn-listening/app/dictionary/service.py)
 
 This module teaches:
 
@@ -268,19 +268,19 @@ This is a great flow to study because it combines:
 
 ## Part 4: Frontend Overview
 
-The frontend lives in [`frontend/src/`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src).
+The frontend lives in [`frontend/src/`](tts-learn-listening/frontend/src).
 
 Main areas:
 
-- [`App.jsx`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/App.jsx)
-- [`auth/`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/auth)
-- [`components/`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/components)
-- [`pages/`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages)
-- [`lib/api.js`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/lib/api.js)
+- [`App.jsx`](tts-learn-listening/frontend/src/App.jsx)
+- [`auth/`](tts-learn-listening/frontend/src/auth)
+- [`components/`](tts-learn-listening/frontend/src/components)
+- [`pages/`](tts-learn-listening/frontend/src/pages)
+- [`lib/api.js`](tts-learn-listening/frontend/src/lib/api.js)
 
 ### `App.jsx`
 
-[`App.jsx`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/App.jsx) defines routes.
+[`App.jsx`](tts-learn-listening/frontend/src/App.jsx) defines routes.
 
 It shows how React Router is used to navigate between:
 
@@ -292,7 +292,7 @@ It shows how React Router is used to navigate between:
 
 ### `lib/api.js`
 
-[`lib/api.js`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/lib/api.js) is the frontend API helper.
+[`lib/api.js`](tts-learn-listening/frontend/src/lib/api.js) is the frontend API helper.
 
 It:
 
@@ -306,7 +306,7 @@ instead of repeating fetch logic everywhere, centralize it.
 
 ### Auth Context
 
-[`auth/AuthContext.jsx`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/auth/AuthContext.jsx) is used for shared authentication state.
+[`auth/AuthContext.jsx`](tts-learn-listening/frontend/src/auth/AuthContext.jsx) is used for shared authentication state.
 
 This teaches:
 
@@ -321,10 +321,10 @@ If you are new to React, this is a very good file to study slowly.
 
 Pages are full screens:
 
-- [`pages/AuthPage.jsx`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/AuthPage.jsx)
-- [`pages/PracticePage.jsx`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/PracticePage.jsx)
-- [`pages/HistoryPage.jsx`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/HistoryPage.jsx)
-- [`pages/VocabularyPage.jsx`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/VocabularyPage.jsx)
+- [`pages/AuthPage.jsx`](tts-learn-listening/frontend/src/pages/AuthPage.jsx)
+- [`pages/PracticePage.jsx`](tts-learn-listening/frontend/src/pages/PracticePage.jsx)
+- [`pages/HistoryPage.jsx`](tts-learn-listening/frontend/src/pages/HistoryPage.jsx)
+- [`pages/VocabularyPage.jsx`](tts-learn-listening/frontend/src/pages/VocabularyPage.jsx)
 
 Study them in this order:
 
@@ -339,9 +339,9 @@ That order goes from simpler to more advanced.
 
 Components are reusable UI pieces:
 
-- [`components/ProtectedRoute.jsx`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/components/ProtectedRoute.jsx)
-- [`components/Word.jsx`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/components/Word.jsx)
-- [`components/DictionaryModal.jsx`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/components/DictionaryModal.jsx)
+- [`components/ProtectedRoute.jsx`](tts-learn-listening/frontend/src/components/ProtectedRoute.jsx)
+- [`components/Word.jsx`](tts-learn-listening/frontend/src/components/Word.jsx)
+- [`components/DictionaryModal.jsx`](tts-learn-listening/frontend/src/components/DictionaryModal.jsx)
 
 These files teach:
 
@@ -387,7 +387,7 @@ This project is good for learning these Python topics:
 
 #### 1. Pure function style
 
-Files like [`evaluator.py`](/Users/hungatto/Desktop/tts-learn-listening/app/evaluator.py) contain logic that does not depend on HTTP.
+Files like [`evaluator.py`](tts-learn-listening/app/evaluator.py) contain logic that does not depend on HTTP.
 
 That makes the code:
 
@@ -462,24 +462,24 @@ If you are totally new, use this reading order:
 
 ### Backend order
 
-1. [`app/main.py`](/Users/hungatto/Desktop/tts-learn-listening/app/main.py)
-2. [`app/routes/training.py`](/Users/hungatto/Desktop/tts-learn-listening/app/routes/training.py)
-3. [`app/evaluator.py`](/Users/hungatto/Desktop/tts-learn-listening/app/evaluator.py)
-4. [`app/tts.py`](/Users/hungatto/Desktop/tts-learn-listening/app/tts.py)
-5. [`app/auth/utils.py`](/Users/hungatto/Desktop/tts-learn-listening/app/auth/utils.py)
-6. [`app/history/service.py`](/Users/hungatto/Desktop/tts-learn-listening/app/history/service.py)
-7. [`app/dictionary/service.py`](/Users/hungatto/Desktop/tts-learn-listening/app/dictionary/service.py)
+1. [`app/main.py`](tts-learn-listening/app/main.py)
+2. [`app/routes/training.py`](tts-learn-listening/app/routes/training.py)
+3. [`app/evaluator.py`](tts-learn-listening/app/evaluator.py)
+4. [`app/tts.py`](tts-learn-listening/app/tts.py)
+5. [`app/auth/utils.py`](tts-learn-listening/app/auth/utils.py)
+6. [`app/history/service.py`](tts-learn-listening/app/history/service.py)
+7. [`app/dictionary/service.py`](tts-learn-listening/app/dictionary/service.py)
 
 ### Frontend order
 
-1. [`frontend/src/App.jsx`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/App.jsx)
-2. [`frontend/src/lib/api.js`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/lib/api.js)
-3. [`frontend/src/auth/AuthContext.jsx`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/auth/AuthContext.jsx)
-4. [`frontend/src/pages/AuthPage.jsx`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/AuthPage.jsx)
-5. [`frontend/src/pages/PracticePage.jsx`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/PracticePage.jsx)
-6. [`frontend/src/components/DictionaryModal.jsx`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/components/DictionaryModal.jsx)
-7. [`frontend/src/pages/HistoryPage.jsx`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/HistoryPage.jsx)
-8. [`frontend/src/pages/VocabularyPage.jsx`](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/VocabularyPage.jsx)
+1. [`frontend/src/App.jsx`](tts-learn-listening/frontend/src/App.jsx)
+2. [`frontend/src/lib/api.js`](tts-learn-listening/frontend/src/lib/api.js)
+3. [`frontend/src/auth/AuthContext.jsx`](tts-learn-listening/frontend/src/auth/AuthContext.jsx)
+4. [`frontend/src/pages/AuthPage.jsx`](tts-learn-listening/frontend/src/pages/AuthPage.jsx)
+5. [`frontend/src/pages/PracticePage.jsx`](tts-learn-listening/frontend/src/pages/PracticePage.jsx)
+6. [`frontend/src/components/DictionaryModal.jsx`](tts-learn-listening/frontend/src/components/DictionaryModal.jsx)
+7. [`frontend/src/pages/HistoryPage.jsx`](tts-learn-listening/frontend/src/pages/HistoryPage.jsx)
+8. [`frontend/src/pages/VocabularyPage.jsx`](tts-learn-listening/frontend/src/pages/VocabularyPage.jsx)
 
 ## Part 9: Suggested Exercises For Learning
 

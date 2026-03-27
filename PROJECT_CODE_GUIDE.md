@@ -1,532 +1,532 @@
-# Phan Tich Code Cho Nguoi Moi
+# Code Analysis for Beginners
 
-Tai lieu nay giup ban doc va hoc du an theo goc nhin cua nguoi moi bat dau voi Python, FastAPI, React va cach frontend giao tiep voi backend.
+This document helps you read and learn the project from the perspective of someone new to Python, FastAPI, React, and how frontend communicates with backend.
 
-## 1. Du an nay lam gi?
+## 1. What does this project do?
 
-Day la mot he thong hoc nghe tieng Anh.
+This is an English listening learning system.
 
-Backend FastAPI se:
-- tao file audio tu van ban bang `edge-tts`
-- tao audio phat am cho tung tu trong dictionary popup
-- cham bai dictation bang `difflib`
-- quan ly dang nhap bang JWT
-- luu lich su hoc tap vao PostgreSQL
-- luu tu dien vao SQLite cache
+The FastAPI backend will:
+- Generate audio files from text using `edge-tts`
+- Create pronunciation audio for each word in dictionary popup
+- Grade dictation using `difflib`
+- Manage login with JWT
+- Save learning history to PostgreSQL
+- Store dictionary in SQLite cache
 
-Frontend React se:
-- cho nguoi dung nhap doan van
-- tach thanh tung cau
-- goi backend de tao audio
-- cho nguoi dung nhap lai cau nghe duoc
-- hien ket qua cham bai
-- tra tu, xem lich su hoc va tu vung
+The React frontend will:
+- Allow users to input paragraphs
+- Split into individual sentences
+- Call backend to generate audio
+- Let users type what they heard
+- Show grading results
+- Look up words, view learning history and vocabulary
 
-Neu ban hoc tot du an nay, ban se hoc duoc:
-- Python co ban va to chuc code backend
-- FastAPI route, service, auth, database
-- React state, effect, router, auth context
-- cach frontend va backend noi chuyen voi nhau qua API
+If you learn this project well, you will learn:
+- Basic Python and backend code organization
+- FastAPI routes, services, auth, database
+- React state, effects, router, auth context
+- How frontend and backend communicate through APIs
 
-## 2. Kien truc tong quan
+## 2. Overall Architecture
 
-Du an duoc tach thanh 2 phan:
+The project is split into 2 parts:
 
 ### Backend
 
-Thu muc: [app](/Users/hungatto/Desktop/tts-learn-listening/app)
+Directory: [app](tts-learn-listening/app)
 
-Nhan chinh:
-- [main.py](/Users/hungatto/Desktop/tts-learn-listening/app/main.py): diem khoi dong FastAPI
-- [tts.py](/Users/hungatto/Desktop/tts-learn-listening/app/tts.py): tao file mp3
-- [evaluator.py](/Users/hungatto/Desktop/tts-learn-listening/app/evaluator.py): cham bai dictation
-- [database.py](/Users/hungatto/Desktop/tts-learn-listening/app/database.py): ket noi PostgreSQL va tao bang
-- [auth/](/Users/hungatto/Desktop/tts-learn-listening/app/auth): dang ky, dang nhap, JWT
-- [routes/training.py](/Users/hungatto/Desktop/tts-learn-listening/app/routes/training.py): `/tts`, `/practice`, `/evaluate`
-- [history/](/Users/hungatto/Desktop/tts-learn-listening/app/history): lich su hoc tap
-- [dictionary/](/Users/hungatto/Desktop/tts-learn-listening/app/dictionary): tra tu, cache, lich su tra tu
+Main components:
+- [main.py](tts-learn-listening/app/main.py): FastAPI startup point
+- [tts.py](tts-learn-listening/app/tts.py): create mp3 files
+- [evaluator.py](tts-learn-listening/app/evaluator.py): grade dictation
+- [database.py](tts-learn-listening/app/database.py): connect to PostgreSQL and create tables
+- [auth/](tts-learn-listening/app/auth): register, login, JWT
+- [routes/training.py](tts-learn-listening/app/routes/training.py): `/tts`, `/practice`, `/evaluate`
+- [history/](tts-learn-listening/app/history): learning history
+- [dictionary/](tts-learn-listening/app/dictionary): word lookup, cache, lookup history
 
 ### Frontend
 
-Thu muc: [frontend/src](/Users/hungatto/Desktop/tts-learn-listening/frontend/src)
+Directory: [frontend/src](tts-learn-listening/frontend/src)
 
-Nhan chinh:
-- [main.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/main.jsx): diem mount app React
-- [App.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/App.jsx): route toan app
-- [lib/api.js](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/lib/api.js): ham goi API
-- [auth/AuthContext.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/auth/AuthContext.jsx): quan ly token va user
-- [pages/PracticePage.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/PracticePage.jsx): man hinh hoc chinh
-- [pages/HistoryPage.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/HistoryPage.jsx): lich su hoc
-- [pages/VocabularyPage.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/VocabularyPage.jsx): tu vung va dictionary search
-- [components/DictionaryModal.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/components/DictionaryModal.jsx): popup nghia cua tu
-- [components/Word.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/components/Word.jsx): render tung tu co the click
+Main components:
+- [main.jsx](tts-learn-listening/frontend/src/main.jsx): React app mount point
+- [App.jsx](tts-learn-listening/frontend/src/App.jsx): app-wide routing
+- [lib/api.js](tts-learn-listening/frontend/src/lib/api.js): API call functions
+- [auth/AuthContext.jsx](tts-learn-listening/frontend/src/auth/AuthContext.jsx): manage token and user
+- [pages/PracticePage.jsx](tts-learn-listening/frontend/src/pages/PracticePage.jsx): main learning screen
+- [pages/HistoryPage.jsx](tts-learn-listening/frontend/src/pages/HistoryPage.jsx): learning history
+- [pages/VocabularyPage.jsx](tts-learn-listening/frontend/src/pages/VocabularyPage.jsx): vocabulary and dictionary search
+- [components/DictionaryModal.jsx](tts-learn-listening/frontend/src/components/DictionaryModal.jsx): word meaning popup
+- [components/Word.jsx](tts-learn-listening/frontend/src/components/Word.jsx): render individual clickable words
 
-## 3. Nen doc theo thu tu nao?
+## 3. What order should you read in?
 
-Neu ban moi hoc, day la thu tu doc rat hop ly:
+If you're new to this, here's a very reasonable reading order:
 
-1. [README.md](/Users/hungatto/Desktop/tts-learn-listening/README.md)
-2. [app/main.py](/Users/hungatto/Desktop/tts-learn-listening/app/main.py)
-3. [app/routes/training.py](/Users/hungatto/Desktop/tts-learn-listening/app/routes/training.py)
-4. [app/tts.py](/Users/hungatto/Desktop/tts-learn-listening/app/tts.py)
-5. [app/evaluator.py](/Users/hungatto/Desktop/tts-learn-listening/app/evaluator.py)
-6. [app/auth/utils.py](/Users/hungatto/Desktop/tts-learn-listening/app/auth/utils.py)
-7. [app/database.py](/Users/hungatto/Desktop/tts-learn-listening/app/database.py)
-8. [app/dictionary/service.py](/Users/hungatto/Desktop/tts-learn-listening/app/dictionary/service.py)
-9. [frontend/src/App.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/App.jsx)
-10. [frontend/src/auth/AuthContext.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/auth/AuthContext.jsx)
-11. [frontend/src/lib/api.js](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/lib/api.js)
-12. [frontend/src/pages/PracticePage.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/PracticePage.jsx)
-13. [frontend/src/pages/VocabularyPage.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/VocabularyPage.jsx)
+1. [README.md](tts-learn-listening/README.md)
+2. [app/main.py](tts-learn-listening/app/main.py)
+3. [app/routes/training.py](tts-learn-listening/app/routes/training.py)
+4. [app/tts.py](tts-learn-listening/app/tts.py)
+5. [app/evaluator.py](tts-learn-listening/app/evaluator.py)
+6. [app/auth/utils.py](tts-learn-listening/app/auth/utils.py)
+7. [app/database.py](tts-learn-listening/app/database.py)
+8. [app/dictionary/service.py](tts-learn-listening/app/dictionary/service.py)
+9. [frontend/src/App.jsx](tts-learn-listening/frontend/src/App.jsx)
+10. [frontend/src/auth/AuthContext.jsx](tts-learn-listening/frontend/src/auth/AuthContext.jsx)
+11. [frontend/src/lib/api.js](tts-learn-listening/frontend/src/lib/api.js)
+12. [frontend/src/pages/PracticePage.jsx](tts-learn-listening/frontend/src/pages/PracticePage.jsx)
+13. [frontend/src/pages/VocabularyPage.jsx](tts-learn-listening/frontend/src/pages/VocabularyPage.jsx)
 
-Ly do:
-- ban se thay duoc luong du lieu chinh truoc
-- sau do moi di vao auth, database va dictionary
-- ben frontend cung doc tu route tong den page cu the
+Reasoning:
+- You'll see the main data flows first
+- Then dive into auth, database and dictionary
+- On the frontend side, also read from general routing to specific pages
 
-## 4. Backend FastAPI: hoc Python qua du an nay
+## 4. Backend FastAPI: Learning Python through this project
 
-### 4.1. Diem vao cua backend
+### 4.1. Backend Entry Point
 
-File: [app/main.py](/Users/hungatto/Desktop/tts-learn-listening/app/main.py)
+File: [app/main.py](tts-learn-listening/app/main.py)
 
-Day la file nen doc dau tien o backend.
+This is the first file you should read in the backend.
 
-No cho ban thay:
-- app FastAPI duoc tao nhu the nao
-- middleware CORS de frontend goi duoc API
-- static files duoc mount o dau
-- cac router duoc include vao app ra sao
+It shows you:
+- How the FastAPI app is created
+- CORS middleware so frontend can call APIs
+- Where static files are mounted
+- How routers are included in the app
 
-Ban se thay:
-- `init_db()` de tao bang PostgreSQL
-- `init_dictionary_cache()` de tao cache SQLite cho dictionary
-- `app.mount("/static/audio", ...)` de phuc vu file mp3
+You'll see:
+- `init_db()` to create PostgreSQL tables
+- `init_dictionary_cache()` to create SQLite cache for dictionary
+- `app.mount("/static/audio", ...)` to serve mp3 files
 
-Khai niem Python/FastAPI ban hoc duoc:
-- ham tao ung dung
-- import module
-- chia router thanh nhieu file
-- khoi tao tai nguyen luc startup
+Python/FastAPI concepts you'll learn:
+- Application creation function
+- Module imports
+- Splitting routers into multiple files
+- Resource initialization at startup
 
-### 4.2. Route training
+### 4.2. Training Routes
 
-File: [app/routes/training.py](/Users/hungatto/Desktop/tts-learn-listening/app/routes/training.py)
+File: [app/routes/training.py](tts-learn-listening/app/routes/training.py)
 
-Day la trai tim cua app hoc nghe.
+This is the heart of the listening learning app.
 
-Co 4 endpoint chinh:
+It has 4 main endpoints:
 - `POST /tts`
 - `POST /practice`
 - `POST /evaluate`
 - `GET /tts/word`
 
-Ban hoc duoc:
-- `pydantic` model de validate input
-- `async def` cho cac tac vu bat dong bo
-- `Depends(get_current_user)` de bat buoc dang nhap
-- goi service function thay vi nhung het logic vao route
+You'll learn:
+- `pydantic` models to validate input
+- `async def` for asynchronous tasks
+- `Depends(get_current_user)` to require login
+- Calling service functions instead of embedding all logic in routes
 
-Vi du:
-- `/practice` nhan mot cau
-- goi `generate_audio_file(...)` 2 lan cho toc do thuong va cham
-- tra ve 2 URL audio
+For example:
+- `/practice` receives a sentence
+- Calls `generate_audio_file(...)` twice for normal and slow speed
+- Returns 2 audio URLs
 
-Day la mot mau thiet ke backend rat tot cho nguoi moi:
-- route nhan request
-- service xu ly nghiep vu
-- route tra response
+This is a very good backend design pattern for beginners:
+- Route receives request
+- Service handles business logic
+- Route returns response
 
-### 4.3. TTS service
+### 4.3. TTS Service
 
-File: [app/tts.py](/Users/hungatto/Desktop/tts-learn-listening/app/tts.py)
+File: [app/tts.py](tts-learn-listening/app/tts.py)
 
-File nay rat de hoc Python vi ngan gon nhung thuc te.
+This file is very easy to learn Python from because it's concise but practical.
 
-No day ban:
-- `Enum` trong Python
-- `Path` de lam viec voi duong dan
+It teaches you:
+- `Enum` in Python
+- `Path` for working with file paths
 - `async/await`
-- goi thu vien ngoai `edge_tts`
+- Calling external library `edge_tts`
 
-Mot vai diem hay:
-- `SpeechSpeed` chi cho phep `normal` va `slow`
-- `RATE_BY_SPEED` la dictionary map toc do sang rate cua TTS
-- `generate_audio_file()` sinh ten file bang `uuid4`
-- `generate_word_audio_file()` luu file theo ten tu da normalize de tranh tao lai
+Some nice points:
+- `SpeechSpeed` only allows `normal` and `slow`
+- `RATE_BY_SPEED` is a dictionary mapping speed to TTS rate
+- `generate_audio_file()` generates filename using `uuid4`
+- `generate_word_audio_file()` saves files by normalized word name to avoid regeneration
 
-Tu file nay ban co the hoc:
-- cach viet code ro nghia
-- cach tach hang so ra khoi business logic
-- cach luu file tao ra vao mot thu muc rieng
+From this file you can learn:
+- How to write clear, meaningful code
+- How to separate constants from business logic
+- How to save generated files in a dedicated directory
 
-### 4.4. Cham bai dictation
+### 4.4. Dictation Grading
 
-File: [app/evaluator.py](/Users/hungatto/Desktop/tts-learn-listening/app/evaluator.py)
+File: [app/evaluator.py](tts-learn-listening/app/evaluator.py)
 
-Neu ban moi hoc Python, file nay rat dang doc ky.
+If you're new to Python, this file is very worth reading carefully.
 
-No dung:
-- `re` de tach token
-- `difflib.SequenceMatcher` de so sanh 2 cau
+It uses:
+- `re` to tokenize
+- `difflib.SequenceMatcher` to compare 2 sentences
 
-No tra ra:
+It returns:
 - `accuracy`
 - `diff`
 - `correct_sentence`
 
-Tu day ban hoc duoc:
-- list
-- dict
-- vong lap `for`
-- dieu kien `if/elif`
-- cach bien mot bai toan "so sanh chuoi" thanh du lieu de frontend hien thi
+From here you'll learn:
+- lists
+- dictionaries
+- `for` loops
+- `if/elif` conditions
+- How to turn a "string comparison" problem into data for frontend display
 
-Hay chu y:
-- backend khong tra HTML
-- backend tra JSON co cau truc ro rang
-- frontend se dua vao `type` cua `diff` de to mau va hien thi loi
+Note that:
+- Backend doesn't return HTML
+- Backend returns JSON with clear structure
+- Frontend will use the `type` of `diff` to colorize and display errors
 
 ### 4.5. Authentication
 
 Files:
-- [app/auth/routes.py](/Users/hungatto/Desktop/tts-learn-listening/app/auth/routes.py)
-- [app/auth/utils.py](/Users/hungatto/Desktop/tts-learn-listening/app/auth/utils.py)
+- [app/auth/routes.py](tts-learn-listening/app/auth/routes.py)
+- [app/auth/utils.py](tts-learn-listening/app/auth/utils.py)
 
-Phan nay day ban nhieu kien thuc backend thuc te:
-- hash password bang `bcrypt`
-- tao JWT
-- doc JWT de lay user hien tai
-- OAuth2PasswordBearer trong FastAPI
+This section teaches you many practical backend concepts:
+- Hash passwords with `bcrypt`
+- Create JWT
+- Read JWT to get current user
+- OAuth2PasswordBearer in FastAPI
 
-Mot chi tiet rat dang hoc:
-- password khong duoc luu plaintext
-- code hash password truoc roi moi luu DB
-- moi request can auth se di qua `get_current_user`
+A very important detail:
+- Passwords should not be stored in plaintext
+- Code hashes password first before saving to DB
+- Every request requiring auth goes through `get_current_user`
 
-Khai niem quan trong:
-- `create_access_token(...)`: tao token
-- `authenticate_user(...)`: kiem tra email/password
-- `get_current_user(...)`: xac minh token va lay user
+Important concepts:
+- `create_access_token(...)`: create token
+- `authenticate_user(...)`: verify email/password
+- `get_current_user(...)`: verify token and get user
 
-Neu ban muon hoc backend dung cach, hay tu ve lai flow:
+If you want to learn backend properly, try to draw the flow:
 
-1. frontend goi `/auth/login`
-2. backend verify password
-3. backend tra JWT
-4. frontend luu token
-5. frontend gui token trong header `Authorization`
-6. backend doc token o cac route duoc bao ve
+1. Frontend calls `/auth/login`
+2. Backend verifies password
+3. Backend returns JWT
+4. Frontend stores token
+5. Frontend sends token in `Authorization` header
+6. Backend reads token in protected routes
 
 ### 4.6. Database PostgreSQL
 
-File: [app/database.py](/Users/hungatto/Desktop/tts-learn-listening/app/database.py)
+File: [app/database.py](tts-learn-listening/app/database.py)
 
-File nay cho ban thay cach backend ket noi DB that.
+This file shows you how backend connects to real database.
 
-No dung:
+It uses:
 - `psycopg`
 - `.env`
 - `load_dotenv(...)`
 
-Ban hoc duoc:
-- doc bien moi truong
-- tao ket noi DB
-- chay SQL thuan
+You'll learn:
+- Reading environment variables
+- Creating database connections
+- Running raw SQL
 - `fetchone()`, `fetchall()`
-- ham helper de doc/ghi du lieu
+- Helper functions to read/write data
 
-Bang chinh:
+Main tables:
 - `users`
 - `learning_history`
 - `user_word_history`
 
-Day la mot du an tot de hoc tu tu:
-- ban chua can SQLAlchemy
-- SQL hien ra ro rang
-- de biet moi bang duoc dung vao viec gi
+This is a good project to learn step by step:
+- You don't need SQLAlchemy yet
+- SQL is clearly visible
+- Easy to understand what each table is used for
 
-### 4.7. Dictionary service
-
-Files:
-- [app/dictionary/routes.py](/Users/hungatto/Desktop/tts-learn-listening/app/dictionary/routes.py)
-- [app/dictionary/service.py](/Users/hungatto/Desktop/tts-learn-listening/app/dictionary/service.py)
-
-Day la module nhieu kien thuc nhat.
-
-No cho ban hoc:
-- goi API ngoai bang `httpx`
-- normalize du lieu
-- cache vao SQLite
-- retry/fallback khi API loi
-- translation English sang Vietnamese
-- luu lich su tra tu theo user
-
-Phan nay co 2 database:
-- PostgreSQL: luu du lieu nguoi dung va lich su user
-- SQLite: luu cache dictionary de tra nhanh hon
-
-Nhung y tuong backend rat hay:
-- `normalize_word(word)` de tranh trung lap
-- `get_word(word)` doc cache truoc
-- `save_word(data)` dung upsert de khong luu duplicate
-- `translate_to_vi(text)` tach rieng thanh 1 ham
-
-Day la mot bai hoc cuc hay:
-- code tot khong chi "chay duoc"
-- code tot con phai nghi den caching, duplicate, fallback va performance
-
-### 4.8. History module
+### 4.7. Dictionary Service
 
 Files:
-- [app/history/routes.py](/Users/hungatto/Desktop/tts-learn-listening/app/history/routes.py)
-- [app/history/service.py](/Users/hungatto/Desktop/tts-learn-listening/app/history/service.py)
+- [app/dictionary/routes.py](tts-learn-listening/app/dictionary/routes.py)
+- [app/dictionary/service.py](tts-learn-listening/app/dictionary/service.py)
 
-Day la noi de hoc cach tach nghiep vu.
+This is the module with the most knowledge.
 
-Tuong tu dictionary:
-- route chi xu ly HTTP
-- service lo xu ly data
+It teaches you:
+- Calling external APIs with `httpx`
+- Normalizing data
+- Caching in SQLite
+- Retry/fallback when API fails
+- Translation from English to Vietnamese
+- Saving user lookup history
 
-Ban se hoc duoc cach:
-- luu ket qua hoc moi lan `/evaluate`
-- lay 50 ban ghi moi nhat
-- tinh thong ke `average_accuracy`
+This section uses 2 databases:
+- PostgreSQL: store user data and user history
+- SQLite: store dictionary cache for faster lookup
 
-## 5. Frontend React: hoc React qua du an nay
+Very good backend ideas:
+- `normalize_word(word)` to avoid duplicates
+- `get_word(word)` reads cache first
+- `save_word(data)` uses upsert to avoid saving duplicates
+- `translate_to_vi(text)` separated into its own function
 
-### 5.1. App va route
+This is an extremely valuable lesson:
+- Good code doesn't just "work"
+- Good code must also consider caching, duplicates, fallback and performance
 
-File: [frontend/src/App.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/App.jsx)
+### 4.8. History Module
 
-File nay day ban:
+Files:
+- [app/history/routes.py](tts-learn-listening/app/history/routes.py)
+- [app/history/service.py](tts-learn-listening/app/history/service.py)
+
+This is where you learn how to separate business logic.
+
+Similar to dictionary:
+- Route only handles HTTP
+- Service handles data processing
+
+You'll learn how to:
+- Save learning results every time `/evaluate` is called
+- Get the 50 most recent records
+- Calculate statistics like `average_accuracy`
+
+## 5. Frontend React: Learning React through this project
+
+### 5.1. App and Routes
+
+File: [frontend/src/App.jsx](tts-learn-listening/frontend/src/App.jsx)
+
+This file teaches you:
 - React Router
-- route public va protected route
+- Public routes and protected routes
 
-Ban se thay:
+You'll see:
 - `/login`
 - `/register`
 - `/`
 - `/history`
 - `/vocabulary`
 
-Neu ban moi hoc React, hay nho:
-- React khong tu "co page"
-- React dung router de map URL sang component
+If you're new to React, remember:
+- React doesn't automatically "have pages"
+- React uses router to map URLs to components
 
-### 5.2. Auth context
+### 5.2. Auth Context
 
-File: [frontend/src/auth/AuthContext.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/auth/AuthContext.jsx)
+File: [frontend/src/auth/AuthContext.jsx](tts-learn-listening/frontend/src/auth/AuthContext.jsx)
 
-Day la file rat quan trong de hoc state management co ban.
+This is a very important file for learning basic state management.
 
-No quan ly:
+It manages:
 - token
 - user
 - login
 - register
 - logout
-- kiem tra session khi app vua mo
+- Check session when app first opens
 
-Ban hoc duoc:
+You'll learn:
 - `createContext`
 - `useContext`
 - `useEffect`
 - `useMemo`
-- chia logic dung chung cho nhieu page
+- Sharing logic across multiple pages
 
-Hay de y flow:
-- app mo len
-- `useEffect` goi `/auth/me`
-- neu token hop le thi lay user
-- neu token hong thi xoa token
+Note the flow:
+- App opens
+- `useEffect` calls `/auth/me`
+- If token is valid, get user
+- If token is broken, delete token
 
-Day la mot mau rat thuc te cho app co auth.
+This is a very practical pattern for apps with auth.
 
-### 5.3. Lop API chung
+### 5.3. Common API Layer
 
-File: [frontend/src/lib/api.js](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/lib/api.js)
+File: [frontend/src/lib/api.js](tts-learn-listening/frontend/src/lib/api.js)
 
-File nay nho nhung rat quan trong.
+This file is small but very important.
 
-No giup:
-- luu token vao `localStorage`
-- tu dong gan `Authorization: Bearer ...`
-- gom logic `fetch` ve mot cho
+It helps:
+- Store token in `localStorage`
+- Automatically attach `Authorization: Bearer ...`
+- Centralize `fetch` logic in one place
 
-Tu day ban hoc duoc mot bai hoc frontend rat hay:
-- khong nen viet `fetch(...)` lung tung moi file
-- nen co 1 lop API dung chung
+From here you learn a very valuable frontend lesson:
+- Don't write `fetch(...)` scattered in every file
+- Should have 1 common API layer
 
-### 5.4. Practice page
+### 5.4. Practice Page
 
-File: [frontend/src/pages/PracticePage.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/PracticePage.jsx)
+File: [frontend/src/pages/PracticePage.jsx](tts-learn-listening/frontend/src/pages/PracticePage.jsx)
 
-Day la file lon nhat va cung la file giup ban hoc React nhanh nhat.
+This is the largest file and also the file that helps you learn React fastest.
 
-Ban se thay:
-- `useState` cho rat nhieu state
-- `useMemo` de tinh `currentSentence` va `currentWords`
-- `useRef` de quan ly audio va dictionary cache
-- nhieu ham async goi backend
+You'll see:
+- `useState` for many different states
+- `useMemo` to calculate `currentSentence` and `currentWords`
+- `useRef` to manage audio and dictionary cache
+- Many async functions calling backend
 
-Nhung bai hoc chinh:
+Main lessons:
 
-#### Tach paragraph thanh cau
+#### Split paragraph into sentences
 
-Ham `splitIntoSentences(paragraph)` day ban:
-- regex trong JavaScript
-- xu ly text input
+Function `splitIntoSentences(paragraph)` teaches you:
+- Regex in JavaScript
+- Text input processing
 
-#### Goi API practice
+#### Call practice API
 
-Ham `requestPractice(sentence)` day ban:
-- cach goi backend
-- bat loi bang `try/catch`
-- xu ly `401`
-- update state sau khi co response
+Function `requestPractice(sentence)` teaches you:
+- How to call backend
+- Error handling with `try/catch`
+- Handle `401`
+- Update state after receiving response
 
-#### Goi API evaluate
+#### Call evaluate API
 
-Ham `handleEvaluate()` day ban:
-- gui du lieu nguoi dung len server
-- nhan JSON ket qua
-- luu vao state de render lai UI
+Function `handleEvaluate()` teaches you:
+- Send user data to server
+- Receive JSON results
+- Save to state to re-render UI
 
-#### Phat audio
+#### Play audio
 
-Ham `playAudio(speed, rate = 1)` day ban:
-- tao `Audio` object bang JavaScript
-- doi `playbackRate`
-- dung `useRef` de giu object audio giua nhieu lan render
+Function `playAudio(speed, rate = 1)` teaches you:
+- Create `Audio` object with JavaScript
+- Change `playbackRate`
+- Use `useRef` to keep audio object between renders
 
 #### Dictionary popup
 
-Ham `handleWordClick(word)` day ban:
-- cache phia frontend bang `Map`
-- tranh goi lai API voi cung mot tu
-- mo modal voi data da tra ve
+Function `handleWordClick(word)` teaches you:
+- Frontend caching with `Map`
+- Avoid calling API again for the same word
+- Open modal with returned data
 
-Trong [DictionaryModal.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/components/DictionaryModal.jsx), ban se hoc them:
-- cach them mot nut chuc nang vao popup
-- cach goi `GET /tts/word?word=...`
-- cach tao `Audio` object va phat phat am cua tu
+In [DictionaryModal.jsx](tts-learn-listening/frontend/src/components/DictionaryModal.jsx), you'll learn more:
+- How to add a functional button to popup
+- How to call `GET /tts/word?word=...`
+- How to create `Audio` object and play word pronunciation
 
-Neu ban doc ky file nay, ban se hoc duoc:
-- state la gi
-- event handler la gi
-- component render theo state nhu the nao
-- vi sao app React phai chia trang thai ro rang
+If you read this file carefully, you'll learn:
+- What is state
+- What are event handlers
+- How components render based on state
+- Why React apps must clearly separate state
 
-### 5.5. Vocabulary page
+### 5.5. Vocabulary Page
 
-File: [frontend/src/pages/VocabularyPage.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/VocabularyPage.jsx)
+File: [frontend/src/pages/VocabularyPage.jsx](tts-learn-listening/frontend/src/pages/VocabularyPage.jsx)
 
-Day la file cuc hay de hoc:
-- search
-- debounce
-- pagination
-- highlight tu khoa
+This is an extremely useful file to learn:
+- Search
+- Debounce
+- Pagination
+- Keyword highlighting
 
-Ban se thay:
+You'll see:
 - `searchInput`
 - `debouncedSearch`
 - `page`
 - `pagination`
 
 Flow:
-- nguoi dung nhap search
-- `useEffect` doi 300ms
-- moi cap nhat `debouncedSearch`
-- `useEffect` khac goi `/dictionary/list`
+- User types in search
+- `useEffect` waits 300ms
+- Then updates `debouncedSearch`
+- Another `useEffect` calls `/dictionary/list`
 
-Day la mot bai hoc frontend rat thuc te:
-- khong nen goi API moi khi user vua bam 1 ky tu
-- debounce giup toi uu request
+This is a very practical frontend lesson:
+- Don't call API every time user presses a key
+- Debounce helps optimize requests
 
-### 5.6. Modal va component nho
+### 5.6. Modal and Small Components
 
 Files:
-- [frontend/src/components/DictionaryModal.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/components/DictionaryModal.jsx)
-- [frontend/src/components/Word.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/components/Word.jsx)
-- [frontend/src/components/ProtectedRoute.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/components/ProtectedRoute.jsx)
+- [frontend/src/components/DictionaryModal.jsx](tts-learn-listening/frontend/src/components/DictionaryModal.jsx)
+- [frontend/src/components/Word.jsx](tts-learn-listening/frontend/src/components/Word.jsx)
+- [frontend/src/components/ProtectedRoute.jsx](tts-learn-listening/frontend/src/components/ProtectedRoute.jsx)
 
-Day la bai hoc ve component hoa.
+This is a lesson about componentization.
 
-Hay nho:
-- component nho de doc
-- de test
-- de tai su dung
+Remember:
+- Small components are easy to read
+- Easy to test
+- Easy to reuse
 
-Vi du:
-- `ProtectedRoute` giu logic bao ve route
-- `Word` giu logic hien 1 tu co the click
-- `DictionaryModal` giu logic hien popup
+For example:
+- `ProtectedRoute` contains route protection logic
+- `Word` contains logic for displaying a clickable word
+- `DictionaryModal` contains popup display logic
 
-## 6. Luong du lieu trong he thong
+## 6. Data Flow in the System
 
-Hay hinh dung 1 buoi hoc cua nguoi dung:
+Imagine a user's learning session:
 
-1. User dang nhap tren frontend
-2. Frontend luu JWT vao `localStorage`
-3. User nhap paragraph
-4. Frontend tach thanh tung cau
-5. Frontend goi `POST /practice`
-6. Backend tao 2 file audio
-7. Frontend phat audio
-8. User nhap cau nghe duoc
-9. Frontend goi `POST /evaluate`
-10. Backend cham bai va luu `learning_history`
-11. Frontend hien accuracy va diff
-12. User click 1 tu
-13. Frontend goi `GET /dictionary?word=...`
-14. Backend check cache SQLite
-15. Neu chua co thi goi dictionary API + translation API
-16. Backend luu cache va luu `user_word_history`
-17. Frontend hien modal nghia cua tu
+1. User logs in on frontend
+2. Frontend stores JWT in `localStorage`
+3. User inputs paragraph
+4. Frontend splits into individual sentences
+5. Frontend calls `POST /practice`
+6. Backend creates 2 audio files
+7. Frontend plays audio
+8. User types what they heard
+9. Frontend calls `POST /evaluate`
+10. Backend grades and saves `learning_history`
+11. Frontend shows accuracy and diff
+12. User clicks a word
+13. Frontend calls `GET /dictionary?word=...`
+14. Backend checks SQLite cache
+15. If not found, calls dictionary API + translation API
+16. Backend saves cache and saves `user_word_history`
+17. Frontend shows modal with word meaning
 
-Neu ban muon hoc fullstack dung cach, hay doc code theo luong nay.
+If you want to learn fullstack properly, read code following this flow.
 
-## 7. Ban hoc duoc gi ve Python?
+## 7. What You Learn About Python?
 
-Tu du an nay, ban co the hoc Python theo tung tang:
+From this project, you can learn Python in layers:
 
-### Muc co ban
+### Basic Level
 
-- bien, ham, `if`, `for`
+- Variables, functions, `if`, `for`
 - `dict`, `list`, `str`
-- import module
-- tach code thanh file
+- Import modules
+- Split code into files
 
-### Muc trung binh
+### Intermediate Level
 
-- `async def` va `await`
+- `async def` and `await`
 - `Enum`
 - `Path`
-- regex
+- Regex
 - `try/except`
-- type hints nhu `dict[str, Any]`
+- Type hints like `dict[str, Any]`
 
-### Muc backend thuc te
+### Real Backend Level
 
 - FastAPI
-- Pydantic model
+- Pydantic models
 - JWT
 - bcrypt
 - PostgreSQL
 - SQLite cache
-- goi API ngoai bang `httpx`
+- Call external APIs with `httpx`
 
-## 8. Ban hoc duoc gi ve React?
+## 8. What You Learn About React?
 
-### Muc co ban
+### Basic Level
 
-- component function
+- Function components
 - JSX
-- props
-- event handler
+- Props
+- Event handlers
 
-### Muc trung binh
+### Intermediate Level
 
 - `useState`
 - `useEffect`
@@ -534,234 +534,234 @@ Tu du an nay, ban co the hoc Python theo tung tang:
 - `useRef`
 - React Router
 
-### Muc app thuc te
+### Real App Level
 
-- auth context
-- protected routes
+- Auth context
+- Protected routes
 - API layer
-- loading state
-- empty state
-- modal
-- search debounce
-- pagination
+- Loading state
+- Empty state
+- Modal
+- Search debounce
+- Pagination
 
-## 9. Cach doc code cho de hieu
+## 9. How to Read Code for Easy Understanding
 
-Day la cach doc code rat hop voi nguoi moi:
+Here are good ways to read code for beginners:
 
-### Cach 1: Doc tu tren xuong
+### Method 1: Read from top to bottom
 
-Vi du voi [app/routes/training.py](/Users/hungatto/Desktop/tts-learn-listening/app/routes/training.py):
-- doc model request truoc
-- doc route
-- xem route goi service nao
-- mo service do ra doc tiep
+For example with [app/routes/training.py](tts-learn-listening/app/routes/training.py):
+- Read request model first
+- Read route
+- See what service the route calls
+- Open that service and read more
 
-### Cach 2: Lan theo 1 tinh nang
+### Method 2: Follow one feature
 
-Vi du tinh nang dictionary:
-- frontend click tu trong [PracticePage.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/PracticePage.jsx)
-- goi [api.js](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/lib/api.js)
-- backend nhan o [routes.py](/Users/hungatto/Desktop/tts-learn-listening/app/dictionary/routes.py)
-- xu ly o [service.py](/Users/hungatto/Desktop/tts-learn-listening/app/dictionary/service.py)
-- tra JSON ve frontend
-- frontend render o [DictionaryModal.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/components/DictionaryModal.jsx)
+For example dictionary feature:
+- Frontend clicks word in [PracticePage.jsx](tts-learn-listening/frontend/src/pages/PracticePage.jsx)
+- Calls [api.js](tts-learn-listening/frontend/src/lib/api.js)
+- Backend receives at [routes.py](tts-learn-listening/app/dictionary/routes.py)
+- Processes at [service.py](tts-learn-listening/app/dictionary/service.py)
+- Returns JSON to frontend
+- Frontend renders at [DictionaryModal.jsx](tts-learn-listening/frontend/src/components/DictionaryModal.jsx)
 
-### Cach 3: Them log tam thoi
+### Method 3: Add temporary logs
 
-Neu chua hieu code chay the nao, hay them:
+If you don't understand how code runs, add:
 
 ```python
 print("payload:", payload)
 print("result:", result)
 ```
 
-hoac ben React:
+or in React:
 
 ```js
 console.log("practiceData", practiceData);
 ```
 
-Day la cach hoc rat thuc te.
+This is a very practical learning method.
 
-## 10. Bai tap tu hoc rat hop voi du an nay
+## 10. Self-Learning Exercises Perfect for This Project
 
-Neu ban muon hoc nhanh, hay tu lam nhung bai nho sau:
+If you want to learn fast, try these small exercises yourself:
 
-### Bai 1
+### Exercise 1
 
-Them toc do audio moi:
+Add new audio speed:
 - `very_slow = "-40%"`
 
-Ban se sua:
-- [app/tts.py](/Users/hungatto/Desktop/tts-learn-listening/app/tts.py)
-- [frontend/src/pages/PracticePage.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/PracticePage.jsx)
+You'll modify:
+- [app/tts.py](tts-learn-listening/app/tts.py)
+- [frontend/src/pages/PracticePage.jsx](tts-learn-listening/frontend/src/pages/PracticePage.jsx)
 
-### Bai 2
+### Exercise 2
 
-Them endpoint `/profile`
+Add `/profile` endpoint
 
-Ban se hoc:
-- auth
-- route moi
-- tra JSON user
+You'll learn:
+- Auth
+- New route
+- Return JSON user
 
-### Bai 3
+### Exercise 3
 
-Them filter accuracy cao/thap o lich su hoc
+Add high/low accuracy filter in learning history
 
-Ban se sua:
-- backend history route
-- frontend history page
+You'll modify:
+- Backend history route
+- Frontend history page
 
-### Bai 4
+### Exercise 4
 
-Them nut "Save favorite word"
+Add "Save favorite word" button
 
-Ban se hoc:
-- them bang DB
-- them route
-- them button frontend
+You'll learn:
+- Add database table
+- Add route
+- Add frontend button
 
-### Bai 5
+### Exercise 5
 
-Hien thi them so tu sai trong ket qua evaluate
+Show number of wrong words in evaluate results
 
-Ban se sua:
-- [app/evaluator.py](/Users/hungatto/Desktop/tts-learn-listening/app/evaluator.py)
-- [frontend/src/pages/PracticePage.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/PracticePage.jsx)
+You'll modify:
+- [app/evaluator.py](tts-learn-listening/app/evaluator.py)
+- [frontend/src/pages/PracticePage.jsx](tts-learn-listening/frontend/src/pages/PracticePage.jsx)
 
-## 11. Nhung bai hoc ve thiet ke code
+## 11. Lessons About Code Design
 
-Du an nay cung day ban cach to chuc code cho sach:
+This project also teaches you how to organize code cleanly:
 
-### Tach route va service
+### Separate Routes and Services
 
-Khong de route lam qua nhieu viec.
+Don't let routes do too much work.
 
-Tot:
-- route nhan request
-- service xu ly logic
-- database helper xu ly luu/doc du lieu
+Good approach:
+- Route receives request
+- Service handles logic
+- Database helper handles save/read data
 
-### Tach auth thanh module rieng
+### Separate Auth into Its Own Module
 
-Auth la phan de roi, nen tach rieng se de bao tri hon.
+Auth is complex, so separating it makes maintenance easier.
 
-### Cache dictionary
+### Cache Dictionary
 
-Khong phai luc nao cung goi API ngoai.
+Don't always call external APIs.
 
-Do la bai hoc quan trong:
-- giam request
-- nhanh hon
-- on dinh hon
+This is an important lesson:
+- Reduce requests
+- Faster
+- More stable
 
-### Frontend co lop API rieng
+### Frontend Has Separate API Layer
 
-Khong de token va fetch nam tung page.
+Don't scatter token and fetch across every page.
 
-## 12. Mot vai tu khoa quan trong ban nen nho
+## 12. Important Keywords You Should Remember
 
-- `async`: chay bat dong bo
-- `await`: doi ket qua cua ham async
-- `JWT`: token xac thuc user
-- `bcrypt`: hash password
-- `route`: duong dan API
-- `service`: noi chua business logic
-- `state`: du lieu thay doi trong React
-- `effect`: logic chay khi component mount hoac khi dependency doi
-- `cache`: luu tam ket qua de dung lai nhanh hon
-- `upsert`: neu co roi thi update, chua co thi insert
+- `async`: runs asynchronously
+- `await`: waits for result of async function
+- `JWT`: user authentication token
+- `bcrypt`: hash passwords
+- `route`: API path
+- `service`: contains business logic
+- `state`: changing data in React
+- `effect`: logic that runs when component mounts or when dependency changes
+- `cache`: temporarily store results for faster reuse
+- `upsert`: if exists then update, if not exists then insert
 
-## 13. Goi y cach hoc trong 7 ngay
+## 13. 7-Day Learning Suggestion
 
-### Ngay 1
+### Day 1
 
-Doc:
-- [README.md](/Users/hungatto/Desktop/tts-learn-listening/README.md)
-- [app/main.py](/Users/hungatto/Desktop/tts-learn-listening/app/main.py)
-- [frontend/src/App.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/App.jsx)
+Read:
+- [README.md](tts-learn-listening/README.md)
+- [app/main.py](tts-learn-listening/app/main.py)
+- [frontend/src/App.jsx](tts-learn-listening/frontend/src/App.jsx)
 
-Muc tieu:
-- hieu tong quan app
+Goal:
+- Understand app overview
 
-### Ngay 2
+### Day 2
 
-Doc:
-- [app/tts.py](/Users/hungatto/Desktop/tts-learn-listening/app/tts.py)
-- [app/routes/training.py](/Users/hungatto/Desktop/tts-learn-listening/app/routes/training.py)
+Read:
+- [app/tts.py](tts-learn-listening/app/tts.py)
+- [app/routes/training.py](tts-learn-listening/app/routes/training.py)
 
-Muc tieu:
-- hieu request/response va audio flow
+Goal:
+- Understand request/response and audio flow
 
-### Ngay 3
+### Day 3
 
-Doc:
-- [app/evaluator.py](/Users/hungatto/Desktop/tts-learn-listening/app/evaluator.py)
-- [frontend/src/pages/PracticePage.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/PracticePage.jsx)
+Read:
+- [app/evaluator.py](tts-learn-listening/app/evaluator.py)
+- [frontend/src/pages/PracticePage.jsx](tts-learn-listening/frontend/src/pages/PracticePage.jsx)
 
-Muc tieu:
-- hieu dictation va evaluation
+Goal:
+- Understand dictation and evaluation
 
-### Ngay 4
+### Day 4
 
-Doc:
-- [app/auth/utils.py](/Users/hungatto/Desktop/tts-learn-listening/app/auth/utils.py)
-- [frontend/src/auth/AuthContext.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/auth/AuthContext.jsx)
+Read:
+- [app/auth/utils.py](tts-learn-listening/app/auth/utils.py)
+- [frontend/src/auth/AuthContext.jsx](tts-learn-listening/frontend/src/auth/AuthContext.jsx)
 
-Muc tieu:
-- hieu auth fullstack
+Goal:
+- Understand fullstack auth
 
-### Ngay 5
+### Day 5
 
-Doc:
-- [app/database.py](/Users/hungatto/Desktop/tts-learn-listening/app/database.py)
-- [app/history/service.py](/Users/hungatto/Desktop/tts-learn-listening/app/history/service.py)
+Read:
+- [app/database.py](tts-learn-listening/app/database.py)
+- [app/history/service.py](tts-learn-listening/app/history/service.py)
 
-Muc tieu:
-- hieu DB va luu lich su
+Goal:
+- Understand DB and saving history
 
-### Ngay 6
+### Day 6
 
-Doc:
-- [app/dictionary/service.py](/Users/hungatto/Desktop/tts-learn-listening/app/dictionary/service.py)
-- [frontend/src/pages/VocabularyPage.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/pages/VocabularyPage.jsx)
+Read:
+- [app/dictionary/service.py](tts-learn-listening/app/dictionary/service.py)
+- [frontend/src/pages/VocabularyPage.jsx](tts-learn-listening/frontend/src/pages/VocabularyPage.jsx)
 
-Muc tieu:
-- hieu API ngoai, cache, search, pagination
+Goal:
+- Understand external APIs, cache, search, pagination
 
-### Ngay 7
+### Day 7
 
-Tu lam 1 tinh nang nho.
+Implement 1 small feature yourself.
 
-Vi du:
-- them mot button moi
-- them mot field moi vao DB
-- them mot endpoint moi
+For example:
+- Add a new button
+- Add a new field to DB
+- Add a new endpoint
 
-Day la ngay giup ban chuyen tu "doc code" sang "viet duoc code".
+This is the day that helps you transition from "reading code" to "writing code".
 
-## 14. Ket luan
+## 14. Conclusion
 
-Du an nay rat hop de hoc fullstack vi no co du:
-- backend that
-- frontend that
-- auth
-- database
-- API ngoai
-- audio
-- dictionary
-- history
+This project is very suitable for learning fullstack because it has everything:
+- Real backend
+- Real frontend
+- Auth
+- Database
+- External APIs
+- Audio
+- Dictionary
+- History
 
-Neu ban la nguoi moi, dung co gang doc tat ca trong 1 ngay.
+If you're a beginner, don't try to read everything in 1 day.
 
-Hay chon 1 luong cu the, vi du:
-- login
-- practice
-- evaluate
-- dictionary
+Choose 1 specific flow, for example:
+- Login
+- Practice
+- Evaluate
+- Dictionary
 
-roi lan theo request tu frontend sang backend va quay nguoc lai.
+Then follow the request from frontend to backend and back again.
 
-Do la cach hoc nhanh nhat.
+That's the fastest way to learn.
