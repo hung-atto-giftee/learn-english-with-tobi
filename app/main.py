@@ -17,7 +17,7 @@ def create_app() -> FastAPI:
     init_dictionary_cache()
 
     app = FastAPI(
-        title="English Listening Trainer API",
+        title="Study English With Tobi API",
         version="1.0.0",
         description="FastAPI backend for English listening and dictation practice.",
     )

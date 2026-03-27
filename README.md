@@ -1,4 +1,4 @@
-# English Listening Trainer
+# Study English With Tobi
 
 An English listening and dictation training system with:
 
@@ -57,6 +57,7 @@ An English listening and dictation training system with:
 - Cache dictionary results in SQLite
 - Track user word lookup history
 - Search and paginate dictionary entries
+- Play pronunciation audio for each dictionary word
 
 ## Project Structure
 
@@ -315,6 +316,7 @@ VITE_API_BASE_URL=http://127.0.0.1:8000
 - `POST /tts`
 - `POST /practice`
 - `POST /evaluate`
+- `GET /tts/word?word=example`
 
 ### History
 

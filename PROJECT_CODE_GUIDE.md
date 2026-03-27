@@ -8,6 +8,7 @@ Day la mot he thong hoc nghe tieng Anh.
 
 Backend FastAPI se:
 - tao file audio tu van ban bang `edge-tts`
+- tao audio phat am cho tung tu trong dictionary popup
 - cham bai dictation bang `difflib`
 - quan ly dang nhap bang JWT
 - luu lich su hoc tap vao PostgreSQL
@@ -114,10 +115,11 @@ File: [app/routes/training.py](/Users/hungatto/Desktop/tts-learn-listening/app/r
 
 Day la trai tim cua app hoc nghe.
 
-Co 3 endpoint chinh:
+Co 4 endpoint chinh:
 - `POST /tts`
 - `POST /practice`
 - `POST /evaluate`
+- `GET /tts/word`
 
 Ban hoc duoc:
 - `pydantic` model de validate input
@@ -151,6 +153,7 @@ Mot vai diem hay:
 - `SpeechSpeed` chi cho phep `normal` va `slow`
 - `RATE_BY_SPEED` la dictionary map toc do sang rate cua TTS
 - `generate_audio_file()` sinh ten file bang `uuid4`
+- `generate_word_audio_file()` luu file theo ten tu da normalize de tranh tao lai
 
 Tu file nay ban co the hoc:
 - cach viet code ro nghia
@@ -403,6 +406,11 @@ Ham `handleWordClick(word)` day ban:
 - cache phia frontend bang `Map`
 - tranh goi lai API voi cung mot tu
 - mo modal voi data da tra ve
+
+Trong [DictionaryModal.jsx](/Users/hungatto/Desktop/tts-learn-listening/frontend/src/components/DictionaryModal.jsx), ban se hoc them:
+- cach them mot nut chuc nang vao popup
+- cach goi `GET /tts/word?word=...`
+- cach tao `Audio` object va phat phat am cua tu
 
 Neu ban doc ky file nay, ban se hoc duoc:
 - state la gi

@@ -8,7 +8,12 @@ from pydantic import BaseModel, Field
 from app.auth.utils import get_current_user
 from app.evaluator import evaluate_sentence
 from app.history.service import save_learning_history
-from app.tts import SpeechSpeed, generate_audio_file
+from app.tts import (
+    SpeechSpeed,
+    generate_audio_file,
+    generate_word_audio_file,
+    normalize_word_audio_key,
+)
 
 
 router = APIRouter(tags=["training"])
@@ -33,6 +38,12 @@ def build_audio_url(request: Request, audio_path: Path) -> str:
     return f"{base_url}/static/audio/{audio_path.name}"
 
 
+def build_nested_audio_url(request: Request, audio_path: Path) -> str:
+    base_url = str(request.base_url).rstrip("/")
+    relative_path = audio_path.relative_to(audio_path.parents[1]).as_posix()
+    return f"{base_url}/static/audio/{relative_path}"
+
+
 @router.post("/tts")
 async def create_tts_audio(payload: TTSRequest) -> FileResponse:
     text = payload.text.strip()
@@ -45,6 +56,24 @@ async def create_tts_audio(payload: TTSRequest) -> FileResponse:
         media_type="audio/mpeg",
         filename=audio_path.name,
     )
+
+
+@router.get("/tts/word")
+async def create_word_audio(
+    word: str,
+    request: Request,
+    current_user: dict = Depends(get_current_user),
+) -> dict[str, str]:
+    normalized_word = normalize_word_audio_key(word)
+    if not normalized_word:
+        raise HTTPException(status_code=400, detail="Word is not valid.")
+
+    audio_path = await generate_word_audio_file(normalized_word)
+    relative_url = f"/static/audio/{audio_path.relative_to(audio_path.parents[1]).as_posix()}"
+    return {
+        "audio_url": relative_url,
+        "absolute_audio_url": build_nested_audio_url(request, audio_path),
+    }
 
 
 @router.post("/practice")

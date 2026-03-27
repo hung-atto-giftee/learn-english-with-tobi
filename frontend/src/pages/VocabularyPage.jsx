@@ -7,8 +7,16 @@ import { apiRequest } from "../lib/api";
 
 const PAGE_SIZE = 10;
 
+function getTodayDateValue() {
+  return new Date().toISOString().slice(0, 10);
+}
+
 function formatDate(value) {
   return new Date(value).toLocaleString();
+}
+
+function getEntryDate(item) {
+  return item.updated_at || item.created_at || "";
 }
 
 function highlightText(text, keyword) {
@@ -42,6 +50,8 @@ export default function VocabularyPage() {
   const [items, setItems] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [startDate, setStartDate] = useState(() => getTodayDateValue());
+  const [endDate, setEndDate] = useState(() => getTodayDateValue());
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -75,6 +85,8 @@ export default function VocabularyPage() {
           page: String(page),
           limit: String(PAGE_SIZE),
           search: debouncedSearch,
+          start_date: startDate,
+          end_date: endDate,
         });
 
         const response = await apiRequest(`/dictionary/list?${params.toString()}`, {
@@ -107,9 +119,25 @@ export default function VocabularyPage() {
     }
 
     loadVocabulary();
-  }, [debouncedSearch, logout, navigate, page]);
+  }, [debouncedSearch, endDate, logout, navigate, page, startDate]);
 
   const totalLabel = useMemo(() => pagination.total || 0, [pagination.total]);
+
+  function handleStartDateChange(event) {
+    setStartDate(event.target.value);
+    setPage(1);
+  }
+
+  function handleEndDateChange(event) {
+    setEndDate(event.target.value);
+    setPage(1);
+  }
+
+  function clearDateFilters() {
+    setStartDate("");
+    setEndDate("");
+    setPage(1);
+  }
 
   function handleLogout() {
     logout();
@@ -171,7 +199,7 @@ export default function VocabularyPage() {
       <main className="app-card">
         <section className="hero hero-row">
           <div>
-            <p className="eyebrow">English Listening Trainer</p>
+            <p className="eyebrow">Study English With Tobi</p>
             <h1>Browse your dictionary results.</h1>
             <p className="hero-copy">
               Search words, browse cached dictionary entries, and reopen details
@@ -211,10 +239,47 @@ export default function VocabularyPage() {
             onChange={(event) => setSearchInput(event.target.value)}
           />
 
+          <div className="filter-row">
+            <div className="filter-field">
+              <label className="field-label" htmlFor="start-date">
+                From date
+              </label>
+              <input
+                id="start-date"
+                className="auth-input"
+                type="date"
+                value={startDate}
+                onChange={handleStartDateChange}
+              />
+            </div>
+
+            <div className="filter-field">
+              <label className="field-label" htmlFor="end-date">
+                To date
+              </label>
+              <input
+                id="end-date"
+                className="auth-input"
+                type="date"
+                value={endDate}
+                onChange={handleEndDateChange}
+              />
+            </div>
+
+            <button
+              className="ghost-button filter-clear-button"
+              type="button"
+              onClick={clearDateFilters}
+              disabled={!startDate && !endDate}
+            >
+              Clear filters
+            </button>
+          </div>
+
           {isLoading ? (
             <div className="empty-state">Loading dictionary entries...</div>
           ) : items.length === 0 ? (
-            <div className="empty-state">
+            <div className="empty-state" style={{marginTop: "2rem"}}>
               No results found. Try a different keyword.
             </div>
           ) : (
@@ -233,7 +298,7 @@ export default function VocabularyPage() {
                         {highlightText(item.word, debouncedSearch)}
                       </p>
                     </div>
-                    <p className="history-date">{formatDate(item.updated_at || item.created_at)}</p>
+                    <p className="history-date">{formatDate(getEntryDate(item))}</p>
                   </div>
 
                   <div className="vocabulary-grid">

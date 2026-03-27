@@ -2,7 +2,7 @@ import os
 import base64
 import hashlib
 from pathlib import Path
-from datetime import UTC, datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
 import bcrypt
@@ -51,7 +51,9 @@ def create_access_token(
     expires_delta: timedelta | None = None,
 ) -> str:
     to_encode = data.copy()
-    expire = datetime.now(UTC) + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+    expire = datetime.now(timezone.utc) + (
+        expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    )
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
@@ -89,7 +91,7 @@ def get_user_by_id(user_id: int) -> dict[str, Any] | None:
 
 
 def create_user(email: str, hashed_password: str) -> dict[str, Any]:
-    created_at = datetime.now(UTC).isoformat(timespec="seconds")
+    created_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
     with get_connection() as connection:
         with connection.cursor() as cursor:

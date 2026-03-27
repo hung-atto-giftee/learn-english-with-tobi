@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
 from app.database import get_connection
 
@@ -9,7 +9,7 @@ def save_learning_history(
     user_input: str,
     accuracy: float,
 ) -> None:
-    created_at = datetime.now(UTC).isoformat(timespec="seconds")
+    created_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
     with get_connection() as connection:
         with connection.cursor() as cursor:

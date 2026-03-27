@@ -211,6 +211,22 @@ textarea {
   margin-top: 22px;
 }
 
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: end;
+  margin-top: 16px;
+}
+
+.filter-field {
+  flex: 1 1 180px;
+}
+
+.filter-clear-button {
+  white-space: nowrap;
+}
+
 .field-label {
   color: #2d4b69;
   font-weight: 600;
@@ -592,11 +608,13 @@ textarea {
 
 .modal-card {
   width: min(560px, 100%);
+  max-height: min(85vh, 720px);
   background: rgba(255, 255, 255, 0.96);
   border-radius: 24px;
   padding: 24px;
   border: 1px solid rgba(255, 255, 255, 0.72);
   box-shadow: 0 24px 70px rgba(14, 40, 69, 0.2);
+  overflow-y: auto;
 }
 
 .modal-header {
@@ -607,14 +625,29 @@ textarea {
   margin-bottom: 18px;
 }
 
+.modal-heading-group {
+  min-width: 0;
+}
+
 .modal-eyebrow {
   margin-bottom: 6px;
+}
+
+.modal-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .modal-title {
   margin: 0;
   color: #173b61;
   font-size: 1.7rem;
+}
+
+.modal-audio-button {
+  min-width: 56px;
+  padding: 10px 14px;
 }
 
 .modal-phonetic {
@@ -632,6 +665,12 @@ textarea {
   border: 1px solid #e0e9f4;
   border-radius: 18px;
   padding: 16px;
+}
+
+.dictionary-english-text {
+  margin: 10px 0 0;
+  color: #58718b;
+  font-size: 0.95rem;
 }
 
 @media (max-width: 720px) {

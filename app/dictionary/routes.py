@@ -19,9 +19,17 @@ async def get_dictionary_list(
     page: int = Query(1, ge=1),
     limit: int = Query(10, ge=1, le=50),
     search: str = Query("", min_length=0),
+    start_date: str = Query("", min_length=0),
+    end_date: str = Query("", min_length=0),
     current_user: dict = Depends(get_current_user),
 ) -> dict:
-    return list_words(page=page, limit=limit, search=search)
+    return list_words(
+        page=page,
+        limit=limit,
+        search=search,
+        start_date=start_date,
+        end_date=end_date,
+    )
 
 
 @router.get("")

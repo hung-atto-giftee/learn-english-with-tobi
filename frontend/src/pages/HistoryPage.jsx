@@ -82,7 +82,7 @@ export default function HistoryPage() {
       <main className="app-card">
         <section className="hero hero-row">
           <div>
-            <p className="eyebrow">English Listening Trainer</p>
+            <p className="eyebrow">Study English With Tobi</p>
             <h1>Your learning history and progress.</h1>
             <p className="hero-copy">
               Review past dictation attempts, accuracy trends, and your recent

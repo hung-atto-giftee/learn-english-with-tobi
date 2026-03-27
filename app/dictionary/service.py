@@ -3,7 +3,7 @@ import json
 import logging
 import re
 import sqlite3
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -228,45 +228,50 @@ def save_word(data: dict[str, Any]) -> dict[str, Any]:
     return cached_word if cached_word else data
 
 
-def list_words(page: int = 1, limit: int = 10, search: str = "") -> dict[str, Any]:
+def list_words(
+    page: int = 1,
+    limit: int = 10,
+    search: str = "",
+    start_date: str = "",
+    end_date: str = "",
+) -> dict[str, Any]:
     normalized_search = normalize_word(search) if search else ""
     offset = (page - 1) * limit
-    search_pattern = f"%{normalized_search}%"
+    conditions: list[str] = []
+    parameters: list[Any] = []
+
+    if normalized_search:
+        conditions.append("word LIKE ?")
+        parameters.append(f"%{normalized_search}%")
+
+    if start_date:
+        conditions.append("date(COALESCE(updated_at, created_at)) >= date(?)")
+        parameters.append(start_date)
+
+    if end_date:
+        conditions.append("date(COALESCE(updated_at, created_at)) <= date(?)")
+        parameters.append(end_date)
+
+    where_clause = f"WHERE {' AND '.join(conditions)}" if conditions else ""
 
     with sqlite3.connect(DICTIONARY_CACHE_DB) as connection:
-        if normalized_search:
-            total_row = connection.execute(
-                """
-                SELECT COUNT(*) FROM dictionary
-                WHERE word LIKE ?
-                """,
-                (search_pattern,),
-            ).fetchone()
-            rows = connection.execute(
-                """
-                SELECT DISTINCT id, word, phonetic, meanings_json, created_at, updated_at
-                FROM dictionary
-                WHERE word LIKE ?
-                ORDER BY updated_at DESC, id DESC
-                LIMIT ? OFFSET ?
-                """,
-                (search_pattern, limit, offset),
-            ).fetchall()
-        else:
-            total_row = connection.execute(
-                """
-                SELECT COUNT(*) FROM dictionary
-                """
-            ).fetchone()
-            rows = connection.execute(
-                """
-                SELECT DISTINCT id, word, phonetic, meanings_json, created_at, updated_at
-                FROM dictionary
-                ORDER BY updated_at DESC, id DESC
-                LIMIT ? OFFSET ?
-                """,
-                (limit, offset),
-            ).fetchall()
+        total_row = connection.execute(
+            f"""
+            SELECT COUNT(*) FROM dictionary
+            {where_clause}
+            """,
+            parameters,
+        ).fetchone()
+        rows = connection.execute(
+            f"""
+            SELECT DISTINCT id, word, phonetic, meanings_json, created_at, updated_at
+            FROM dictionary
+            {where_clause}
+            ORDER BY updated_at DESC, id DESC
+            LIMIT ? OFFSET ?
+            """,
+            [*parameters, limit, offset],
+        ).fetchall()
 
     total = int(total_row[0] if total_row else 0)
     items = [
@@ -290,6 +295,8 @@ def list_words(page: int = 1, limit: int = 10, search: str = "") -> dict[str, An
         "total": total,
         "total_pages": total_pages,
         "search": normalized_search,
+        "start_date": start_date,
+        "end_date": end_date,
     }
 
 
@@ -518,7 +525,7 @@ async def lookup_word(word: str) -> dict[str, Any]:
 
 
 def record_user_word_lookup(user_id: int, word: str) -> None:
-    created_at = datetime.now(UTC).isoformat(timespec="seconds")
+    created_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     save_user_word_history(user_id=user_id, word=word, created_at=created_at)
 
 
