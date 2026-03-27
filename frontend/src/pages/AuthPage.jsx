@@ -47,7 +47,7 @@ export default function AuthPage({ mode }) {
       <div className="ambient ambient-right" />
 
       <main className="auth-card">
-        <p className="eyebrow">English Listening Trainer</p>
+        <p className="eyebrow">Study English With Tobi</p>
         <h1>{isLogin ? "Welcome back" : "Create your account"}</h1>
         <p className="auth-subtitle">
           {isLogin

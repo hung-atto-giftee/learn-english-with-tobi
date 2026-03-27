@@ -13,6 +13,10 @@ function splitIntoSentences(paragraph) {
     .filter(Boolean);
 }
 
+function normalizeParagraphInput(value) {
+  return value.replace(/\s*\n+\s*/g, " ").replace(/\s{2,}/g, " ").trimStart();
+}
+
 function renderDiff(diff) {
   if (!diff?.length) {
     return <span className="diff-chip diff-chip-equal">Perfect match</span>;
@@ -264,7 +268,7 @@ export default function PracticePage() {
       <main className="app-card">
         <section className="hero hero-row">
           <div>
-            <p className="eyebrow">English Listening Trainer</p>
+            <p className="eyebrow">Study English With Tobi</p>
             <h1>Practice one sentence at a time with instant feedback.</h1>
             <p className="hero-copy">
               Paste a paragraph, generate listening audio, type what you hear,
@@ -307,7 +311,7 @@ export default function PracticePage() {
             className="paragraph-input"
             placeholder="Paste your English paragraph here..."
             value={paragraph}
-            onChange={(event) => setParagraph(event.target.value)}
+            onChange={(event) => setParagraph(normalizeParagraphInput(event.target.value))}
             rows={7}
           />
 

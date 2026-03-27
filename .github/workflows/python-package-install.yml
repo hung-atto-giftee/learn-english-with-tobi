@@ -1,0 +1,33 @@
+name: Python Package Install Check
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  install-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Verify installed packages
+        run: pip check
+
+      - name: Compile backend Python files
+        run: python -m py_compile app/main.py app/tts.py app/evaluator.py app/database.py
