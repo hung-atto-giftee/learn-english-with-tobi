@@ -452,4 +452,4 @@ curl "http://127.0.0.1:8000/dictionary/words/frequent" \
 
 This project is licensed under the MIT License.
 
-See [LICENSE](/Users/hungatto/Desktop/tts-learn-listening/LICENSE) for details.
+See [LICENSE](/LICENSE) for details.
